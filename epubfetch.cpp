@@ -216,14 +216,14 @@ main(int /*argc*/,
 
 	#if defined(WIN32) || defined (_WIN64)
 //		dbserver = "tcp://10.40.85.20:3306";
-		dbserver = "tcp://ec2-184-72-94-122.compute-1.amazonaws.com:3306";
+		dbserver = "tcp://ec2-184-??-94-???.compute-1.amazonaws.com:3306";
 	#else
 		dbserver = "tcp://127.0.0.1:3306";
 	#endif
 	
-		dbuser = "ereader";
-		dbpass = "testmybooks";
-		dbstore = "ereader";
+		dbuser = "e??????";
+		dbpass = "????????";
+		dbstore = "eread??";
 		m_metaLen = 0;
 		m_multiLen = 0;
 		m_pagewords = 0;
