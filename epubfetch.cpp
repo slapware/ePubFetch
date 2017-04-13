@@ -62,7 +62,7 @@ typedef unsigned __int64 uint64_t;
 #endif
 
 #define BUFSIZE 1024
-
+#include "Markup.h"
 //////////////////////////////
 //Required namespace section//
 //////////////////////////////
@@ -220,10 +220,42 @@ main(int /*argc*/,
 	#else
 		dbserver = "tcp://127.0.0.1:3306";
 	#endif
+	///////////////////////////////////////////////////////////
+	//Select the name of .config file to load for DB connect.//
+	///////////////////////////////////////////////////////////
+	std::string pXmlSetting = cCurrentPath;
+	std::string m_currentPath = cCurrentPath;
+	std::string dbserver, dbuser, dbpass, dbstore, m_log;
+	pXmlSetting += PATH_SEPARATOR;
+	pXmlSetting += "epubFetch.xml";
+	{ // scope the life of CMarkup
+		CMarkup m_xml;
+		if (!m_xml.Load(pXmlSetting.c_str() ) )
+		{
+			std::cout << "Failed to locate and load XML configuration." << endl;
+			return false;
+		} 
+		else
+		{
+			m_xml.FindElem();
+			m_xml.IntoElem();
+
+			m_xml.FindElem("database");
+			m_xml.FindChildElem("server");
+			dbserver = (m_xml.GetChildData());
+			m_xml.FindChildElem("user");
+			dbuser = (m_xml.GetChildData());
+			m_xml.FindChildElem("pass");
+			dbpass = (m_xml.GetChildData());
+			m_xml.FindChildElem("store");
+			dbstore = (m_xml.GetChildData());
+			m_xml.FindChildElem("log");
+			m_log = m_currentPath += PATH_SEPARATOR;
+			m_log += (m_xml.GetChildData());
+		}
+
+	} // end scope life of CMarkup
 	
-		dbuser = "e??????";
-		dbpass = "????????";
-		dbstore = "eread??";
 		m_metaLen = 0;
 		m_multiLen = 0;
 		m_pagewords = 0;
